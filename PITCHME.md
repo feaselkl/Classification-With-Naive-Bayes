@@ -93,7 +93,39 @@ Supposing multiple inputs, we can combine them together like so:
 
 This is because we assume that the inputs are **independent** from one another.
 
-Given `$B_1, B_2, ..., B_N$` as possible classes, we want to find the greatest `$B_i$`. 
+Given `$B_1, B_2, ..., B_N$` as possible classes, we want to find the `$B_i$` with the highest probability.
+
+---
+
+@title[Solving By Hand -- Features]
+
+## Agenda
+1. Solving Naive Bayes
+2. **Solving By Hand -- Features**
+3. Solving By Hand -- Natural Language
+4. R - Features
+5. R - Natural Language
+
+---
+
+@title[Shall We Golf?]
+
+|Row|Outlook|Temp|Humidity|Wind|Golf?|
+|---|-------|----|--------|----|-----|
+|0|Rainy|Hot|High|False|No|
+|1|Rainy|Hot|High|True|No|
+|2|Overcast|Hot|High|False|Yes|
+|3|Sunny|Mild|High|False|Yes|
+|4|Sunny|Cool|Normal|False|Yes|
+|5|Sunny|Cool|Normal|True|No|
+|6|Overcast|Cool|Normal|True|Yes|
+|7|Rainy|Mild|High|False|No|
+|8|Rainy|Cool|Normal|False|Yes|
+|9|Sunny|Mild|Normal|False|Yes|
+|10|Rainy|Mild|Normal|True|Yes|
+|11|Overcast|Mild|High|True|Yes|
+|12|Overcast|Hot|Normal|False|Yes|
+|13|Sunny|Mild|High|True|No|
 
 ---
 
