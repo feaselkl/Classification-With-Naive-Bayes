@@ -12,4 +12,5 @@ background-size : cover
 highlight : atom-one-light
 transition : none
 published : true
-footnote : "Classification with Naive Bayes | https://csmore.info/on/naive-bayes"
+footnote : "Classification with Naive Bayes | https://csmore.info/on/naivebayes"
+mathjax : TeX-MML-AM_HTMLorMML-full
