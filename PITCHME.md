@@ -316,6 +316,20 @@ a and bullish fell hitter investors no nobody of on opportunity out percent pitc
 
 Baseball is therefore the best category for our phrase.
 
+---
+
+### Making Results Better
+
+As noted before, "runner" had zero hits even though "runners" is in the Baseball set.  There are things we can
+do to improve the likelihood of hits even with slightly different forms of words:
+
+1. Remove stopwords (e.g., a, the, on, of, etc.)
+2. Lemmatize words:  group together inflections of the same word (runner, runners)
+3. Use n-grams (sequences of multiple words; "threw out the" and "out the runner" are 3-grams)
+4. Use TF-IDF (term frequency - inverse document frequency):  penalize words which appear frequently in most of the texts. 
+
+---
+
 ### Wrapping Up
 
 To learn more, go here:  <a href="http://csmore.info/on/naivebayes">http://CSmore.info/on/naivebayes</a>
