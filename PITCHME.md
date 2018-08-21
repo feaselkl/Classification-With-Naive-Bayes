@@ -110,8 +110,8 @@ Given `$B_1, B_2, ..., B_N$` as possible classes, we want to find the `$B_i$` wi
 
 @title[Shall We Golf?]
 
-|Row|Outlook|Temp|Humidity|Wind|Golf?|
-|---|-------|----|--------|----|-----|
+|Row|Outlook|Temp|Humidity|Windy|Golf?|
+|---|-------|----|--------|-----|-----|
 |0|Rainy|Hot|High|False|No|
 |1|Rainy|Hot|High|True|No|
 |2|Overcast|Hot|High|False|Yes|
@@ -120,6 +120,13 @@ Given `$B_1, B_2, ..., B_N$` as possible classes, we want to find the `$B_i$` wi
 |5|Sunny|Cool|Normal|True|No|
 |6|Overcast|Cool|Normal|True|Yes|
 |7|Rainy|Mild|High|False|No|
+
+---
+
+@title[Shall We Golf? (cotd)]
+
+|Row|Outlook|Temp|Humidity|Windy|Golf?|
+|---|-------|----|--------|-----|-----|
 |8|Rainy|Cool|Normal|False|Yes|
 |9|Sunny|Mild|Normal|False|Yes|
 |10|Rainy|Mild|Normal|True|Yes|
@@ -128,6 +135,94 @@ Given `$B_1, B_2, ..., B_N$` as possible classes, we want to find the `$B_i$` wi
 |13|Sunny|Mild|High|True|No|
 
 ---
+
+### Solving The Problem
+
+Goal:  determine, based on input conditions, whether we should go play golf.
+
+Steps:
+1. Find the probability of playing golf (prior probability).
+2. Find the probability of golfing given each variable:  Outlook, Temp, Humidity, Wind.
+3. Plug values from new data into our formula.
+
+---
+
+### Prior Probability
+
+|Golf?|Count|P(Yes)/P(No)|
+|-----|-----|------------|
+|Yes|9|9/14|
+|No|5|5/14|
+|Total|14|100%|
+
+---
+
+### Outlook
+
+|Outlook|Yes|No|P(Yes)|P(No)|
+|-------|---|--|------------|
+|Sunny|2|3|2/9|3/5|
+|Overcast|4|0|4/9|0/5|
+|Rainy|3|2|3/9|2/5|
+|Total|9|5|100%|100%|
+
+---
+
+### Temperature
+
+|Temp|Yes|No|P(Yes)|P(No)|
+|----|---|--|------------|
+|Hot|2|2|2/9|2/5|
+|Mild|4|2|4/9|2/5|
+|Cool|3|1|3/9|1/5|
+|Total|9|5|100%|100%|
+
+---
+
+### Humidity
+
+|Humidity|Yes|No|P(Yes)|P(No)|
+|--------|---|--|------------|
+|High|3|4|3/9|4/5|
+|Normal|6|1|6/9|1/5|
+|Total|9|5|100%|100%|
+
+---
+
+### Windy
+
+|Windy|Yes|No|P(Yes)|P(No)|
+|-----|---|--|------------|
+|False|6|2|6/9|2/5|
+|True|3|3|3/9|3/5|
+|Total|9|5|100%|100%|
+
+---
+
+### Testing A Day
+
+Suppose we have a day like: today = ( Sunny, Hot, Normal, False ).
+
+The probability of playing golf:
+`$P(Yes|today) = \dfrac{P(Outlook_s|Yes) * P(Temp_h|Yes) * P(Humidity_n|Yes) * P(Windy_f|Yes) * P(Yes)}{P(today)}
+
+The probability of not playing golf:
+`$P(No|today) = \dfrac{P(Outlook_s|No) * P(Temp_h|No) * P(Humidity_n|No) * P(Windy_f|No) * P(No)}{P(today)}
+
+Note the common denominator:  because we're comparing P(Yes|today) versus P(No|today), the common denominator cancels out.
+
+---
+
+### Testing A Day
+
+Suppose we have a day like: today = ( Sunny, Hot, Normal, False ).
+
+The probability of playing golf:
+`$P(Yes|today) = \dfrac{2}{9}\dot\dfrac{2}{9}\dot\dfrac{6}{9}\dot\dfrac{6}{9}\dot\dfrac{9}{14} = 0.0141$`
+
+The probability of not playing golf:
+`$P(No|today) = \dfrac{P(Outlook_s|No) * P(Temp_h|No) * P(Humidity_n|No) * P(Windy_f|No) * P(No)}{P(today)}
+
 
 ### Wrapping Up
 
