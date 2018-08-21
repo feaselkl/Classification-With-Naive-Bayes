@@ -213,13 +213,15 @@ Note the common denominator:  because we're comparing P(Yes|today) versus P(No|t
 
 ### Testing A Day
 
-Suppose we have a day like: today = ( Sunny, Hot, Normal, False ).
+Putting this in numbers:
 
 The probability of playing golf:
 `$P(Yes|today) = \dfrac{2}{9} \cdot \dfrac{2}{9} \cdot \dfrac{6}{9} \cdot \dfrac{6}{9} \cdot \dfrac{9}{14} = 0.0141$`
 
 The probability of not playing golf:
 `$P(No|today) = \dfrac{3}{5} \cdot \dfrac{2}{5} \cdot \dfrac{1}{5} \cdot \dfrac{2}{5} \cdot \dfrac{5}{14} = 0.0068$`
+
+Time to golf!
 
 ---
 
