@@ -238,10 +238,7 @@ Time to golf!
 
 ### Natural Language Sample
 
-Problem:  we want to categorize phrases into Business or Baseball.
-Input data set:
-
-||Text||Tag||
+|Text|Tag|
 |----|---|
 |Stock prices fell|Business|
 |Shares were up thirty percent|Business|
@@ -258,7 +255,6 @@ Our test text:  **Threw out the runner**
 
 Goal:  determine, based on input conditions, whether we should categorize this as a baseball phrase or a business phrase.
 
-Steps:
 1. Find the probability of a phrase being business or baseball (prior probability).
 2. Find the probability of the words in the phrase being business or baseball.
 3. Plug values from new data into our formula.
@@ -267,11 +263,10 @@ Steps:
 
 ### Calculating Values
 
-Calculating the prior probability is easy:  the count of "Baseball" categories versus the total number of phrases is the prior probability of selecting the Baseball category:  3/6, or 50%.  The same goes for Business.
+Calculating the prior probability is easy:  the count of "Baseball" categories versus the total number of 
+phrases is the prior probability of selecting the Baseball category:  `$\dfrac{3}{6}$`, or 50%.  The same goes for Business.
 
-We want to solve P(Business|threw out the runner) versus P(Baseball|threw out the runner)
-
-The formula is the same, but what are our features?  The answer is, **individual words**!
+So what are our features?  The answer is, **individual words**!
 
 ---
 
