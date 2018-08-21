@@ -91,9 +91,9 @@ Supposing multiple inputs, we can combine them together like so:
 
 `$P(B|A) = \dfrac{P(x_1|B) * P(x_2|B) * ... * P(x_n|B)}{P(A)}$`
 
-This is because we assume that the inputs are **independent** from one another, so the probabilities of existence.
+This is because we assume that the inputs are **independent** from one another.
 
-Given `$B_1, B_2, ..., B_N$` as possible outputs, we want to find the `$B_i` which maximizes the value of the function. 
+Given `$B_1, B_2, ..., B_N$` as possible classes, we want to find the greatest `$B_i$`. 
 
 ---
 
