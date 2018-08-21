@@ -310,10 +310,9 @@ a and bullish fell hitter investors no nobody of on opportunity out percent pitc
 
 @title[Calculating Values -- Final Calculation]
 
-`$P(Baseball|phrase) = \dfrac{2}{47} \cdot \dfrac{3}{47} \cdot \dfrac{1}{47} \cdot \dfrac{1}{47} \cdot \dfrac{1}{47} \cdot \dfrac{3}{6} = 6.15e-7$`
+`$P(Baseball|totr) = \dfrac{2}{47} \cdot \dfrac{3}{47} \cdot \dfrac{1}{47} \cdot \dfrac{1}{47} \cdot \dfrac{1}{47} \cdot \dfrac{3}{6} = 6.15e-7$`
 
-The probability of not playing golf:
-`$P(Business|phrase) = \dfrac{1}{43} \cdot \dfrac{1}{43} \cdot \dfrac{2}{43} \cdot \dfrac{1}{43} \cdot \dfrac{1}{47} \cdot \dfrac{3}{6} = 2.93e-7$`
+`$P(Business|totr) = \dfrac{1}{43} \cdot \dfrac{1}{43} \cdot \dfrac{2}{43} \cdot \dfrac{1}{43} \cdot \dfrac{1}{47} \cdot \dfrac{3}{6} = 2.93e-7$`
 
 Baseball is therefore the best category for our phrase.
 
