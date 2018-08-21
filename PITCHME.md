@@ -272,13 +272,19 @@ So what are our features?  The answer is, **individual words**!
 
 ### Calculating Values -- Words
 
-Calculate `$P(threw|Baseball)$` --> count how many times "threw" appears in Baseball texts, divided by the number of words in Baseball texts.
+Calculate `$P(threw|Baseball)$` => count how many times "threw" appears in Baseball texts, divided by the number of words in Baseball texts.
 
 The answer here is `$\dfrac{1}{18}$`.
 
-But what about the word "the"?  It doesn't appear in any of the baseball texts, so it would have a result of 0 because it was never seen before in the Baseball texts.
+---
 
-Remember that we multiply all of the word probabilities together, so a single 0 leads us to a probability of 0%.  But you're liable to see new words, so this isn't a good solution.
+### Calculating Values -- Missing Words
+
+What about the word "the"?  It doesn't appear in any of the baseball texts, so it would have a result of `$\dfrac{0}{18}$`.
+
+Because we multiply all of the word probabilities together, a single 0 leads us to a total probability of 0%.
+
+But you're liable to see new words, so this isn't a good solution.
 
 ---
 
