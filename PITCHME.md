@@ -310,9 +310,9 @@ a and bullish fell hitter investors no nobody of on opportunity out percent pitc
 
 @title[Calculating Values -- Final Calculation]
 
-`$P(Baseball|totr) = \dfrac{2}{47} \cdot \dfrac{3}{47} \cdot \dfrac{1}{47} \cdot \dfrac{1}{47} \cdot \dfrac{1}{47} \cdot \dfrac{3}{6} = 6.15 \times 10^-7$`
+`$P(Baseball|totr) = \dfrac{2}{47} \cdot \dfrac{3}{47} \cdot \dfrac{1}{47} \cdot \dfrac{1}{47} \cdot \dfrac{3}{6} = 6.15 \times 10^-7$`
 
-`$P(Business|totr) = \dfrac{1}{43} \cdot \dfrac{1}{43} \cdot \dfrac{2}{43} \cdot \dfrac{1}{43} \cdot \dfrac{1}{47} \cdot \dfrac{3}{6} = 2.93 \times 10^-7$`
+`$P(Business|totr) = \dfrac{1}{43} \cdot \dfrac{1}{43} \cdot \dfrac{2}{43} \cdot \dfrac{1}{43} \cdot \dfrac{3}{6} = 2.93 \times 10^-7$`
 
 Baseball is therefore the best category for our phrase.
 
