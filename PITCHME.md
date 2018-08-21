@@ -201,7 +201,7 @@ Steps:
 
 ### Testing A Day
 
-Suppose today = ( Sunny, Hot, Normal, False ).  We can compare the probability of playing golf versus the probability of not playing golf:
+Suppose today = ( Sunny, Hot, Normal, False ).  Let's compare the P(golf) versus P(no golf):
 
 `$P(Y|t) = \dfrac{P(O_s|Y) \cdot P(T_h|Y) \cdot P(H_n|Y) \cdot P(W_f|Y) \cdot P(Y)}{P(t)}$`
 
