@@ -282,10 +282,30 @@ The answer here is `$\dfrac{1}{18}$`.
 
 What about the word "the"?  It doesn't appear in any of the baseball texts, so it would have a result of `$\dfrac{0}{18}$`.
 
-Because we multiply all of the word probabilities together, a single 0 leads us to a total probability of 0%.
-
+Because we multiply all of the word probabilities together, a single 0 leads us to a total probability of 0%. 
 But you're liable to see new words, so this isn't a good solution.
 
+---
+
+### Calculating Values -- Laplace Smoothing
+
+To fix the zero probability problem, we can apply Laplace smoothing:  add 1 to each count so it is never zero.  Then, add N (the number of unique words) to the denominator.
+
+There are **29** unique words in the entire data set:
+a and bullish fell hitter investors no nobody of on opportunity out percent pitched prices runners second seized shares situation stock the third thirty threw tough up were with
+
+---
+
+### Calculating Values -- Final Answers
+
+|Word|P(word|Baseball)|P(word|Business)|
+|----|----------------|----------------|
+|threw|`$\dfrac{1+1}{18+29}$`|`$\dfrac{0+1}{14+29}$`|
+|out|`$\dfrac{2+1}{18+29}$`|`$\dfrac{0+1}{14+29}$`|
+|the|`$\dfrac{0+1}{18+29}$`|`$\dfrac{1+1}{14+29}$`|
+|runner|`$\dfrac{0+1}{18+29}$`|`$\dfrac{0+1}{14+29}$`|
+
+**NOTE:** "runner" is not the same as "runners" here!
 ---
 
 ### Wrapping Up
