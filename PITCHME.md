@@ -296,9 +296,9 @@ a and bullish fell hitter investors no nobody of on opportunity out percent pitc
 
 ---
 
-### Calculating Values -- Final Answers
+### Calculating Values -- Table
 
-|Word|P(word|Baseball)|P(word|Business)|
+|Word|P(Baseball)|P(Business)|
 |----|----------------|----------------|
 |threw|`$\dfrac{1+1}{18+29}$`|`$\dfrac{0+1}{14+29}$`|
 |out|`$\dfrac{2+1}{18+29}$`|`$\dfrac{0+1}{14+29}$`|
