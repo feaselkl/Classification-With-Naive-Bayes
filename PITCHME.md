@@ -225,6 +225,68 @@ Time to golf!
 
 ---
 
+@title[Solving By Hand -- Natural Language]
+
+## Agenda
+1. Solving Naive Bayes
+2. Solving By Hand -- Features
+3. **Solving By Hand -- Natural Language**
+4. R - Features
+5. R - Natural Language
+
+---
+
+### Natural Language Sample
+
+Problem:  we want to categorize phrases into Business or Baseball.
+Input data set:
+
+||Text||Tag||
+|----|---|
+|Stock prices fell|Business|
+|Shares were up thirty percent|Business|
+|Pitched out of a tough situation|Baseball|
+|Bullish investors seized on the opportunity|Business|
+|Threw a no hitter|Baseball|
+|Runners on second and third with nobody out|Baseball|
+
+---
+
+### Test Text And Process
+
+Our test text:  **Threw out the runner**
+
+Goal:  determine, based on input conditions, whether we should categorize this as a baseball phrase or a business phrase.
+
+Steps:
+1. Find the probability of a phrase being business or baseball (prior probability).
+2. Find the probability of the words in the phrase being business or baseball.
+3. Plug values from new data into our formula.
+
+---
+
+### Calculating Values
+
+Calculating the prior probability is easy:  the count of "Baseball" categories versus the total number of phrases is the prior probability of selecting the Baseball category:  3/6, or 50%.  The same goes for Business.
+
+We want to solve P(Business|threw out the runner) versus P(Baseball|threw out the runner)
+
+The formula is the same, but what are our features?  The answer is, **individual words**!
+
+---
+
+### Calculating Values -- Words
+
+Calculate `$P(threw|Baseball)$` --> count how many times "threw" appears in Baseball texts, divided by the number of words in Baseball texts.
+
+The answer here is `$\dfrac{1}{18}$`.
+
+But what about the word "the"?  It doesn't appear in any of the baseball texts, so it would have a result of 0 because it was never seen before in the Baseball texts.
+
+Remember that we multiply all of the word probabilities together, so a single 0 leads us to a probability of 0%.  But you're liable to see new words, so this isn't a good solution.
+
+---
+
 ### Wrapping Up
 
 To learn more, go here:  <a href="http://csmore.info/on/naivebayes">http://CSmore.info/on/naivebayes</a>
