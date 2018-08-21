@@ -201,13 +201,13 @@ Steps:
 
 ### Testing A Day
 
-Suppose we have a day like: today = ( Sunny, Hot, Normal, False ).
+Suppose today = ( Sunny, Hot, Normal, False ).
 
 The probability of playing golf:
-`$P(Yes|today) = \dfrac{P(O_s|Yes) \cdot P(T_h|Yes) \cdot P(H_n|Yes) \cdot P(W_f|Yes) \cdot P(Yes)}{P(today)}$`
+`$P(Y|t) = \dfrac{P(O_s|Y) \cdot P(T_h|Y) \cdot P(H_n|Y) \cdot P(W_f|Y) \cdot P(Y)}{P(t)}$`
 
 The probability of not playing golf:
-`$P(No|today) = \dfrac{P(O_s|No) \cdot P(T_h|No) \cdot P(H_n|No) \cdot P(W_f|No) \cdot P(No)}{P(today)}$`
+`$P(N|t) = \dfrac{P(O_s|N) \cdot P(T_h|N) \cdot P(H_n|N) \cdot P(W_f|N) \cdot P(N)}{P(t)}$`
 
 Note the common denominator:  because we're comparing P(Yes|today) versus P(No|today), the common denominator cancels out.
 
