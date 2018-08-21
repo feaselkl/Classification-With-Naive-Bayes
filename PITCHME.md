@@ -204,10 +204,10 @@ Steps:
 Suppose we have a day like: today = ( Sunny, Hot, Normal, False ).
 
 The probability of playing golf:
-`$P(Yes|today) = \dfrac{P(Outlook_s|Yes) * P(Temp_h|Yes) * P(Humidity_n|Yes) * P(Windy_f|Yes) * P(Yes)}{P(today)}
+`$P(Yes|today) = \dfrac{P(Outlook_s|Yes) * P(Temp_h|Yes) * P(Humidity_n|Yes) * P(Windy_f|Yes) * P(Yes)}{P(today)}$`
 
 The probability of not playing golf:
-`$P(No|today) = \dfrac{P(Outlook_s|No) * P(Temp_h|No) * P(Humidity_n|No) * P(Windy_f|No) * P(No)}{P(today)}
+`$P(No|today) = \dfrac{P(Outlook_s|No) * P(Temp_h|No) * P(Humidity_n|No) * P(Windy_f|No) * P(No)}{P(today)}$`
 
 Note the common denominator:  because we're comparing P(Yes|today) versus P(No|today), the common denominator cancels out.
 
@@ -218,7 +218,7 @@ Note the common denominator:  because we're comparing P(Yes|today) versus P(No|t
 Suppose we have a day like: today = ( Sunny, Hot, Normal, False ).
 
 The probability of playing golf:
-`$P(Yes|today) = \dfrac{2}{9}\dot\dfrac{2}{9}\dot\dfrac{6}{9}\dot\dfrac{6}{9}\dot\dfrac{9}{14} = 0.0141$`
+`$P(Yes|today) = \dfrac{2}{9} \cdot \dfrac{2}{9} \cdot \dfrac{6}{9} \cdot \dfrac{6}{9} \cdot \dfrac{9}{14} = 0.0141$`
 
 The probability of not playing golf:
 `$P(No|today) = \dfrac{P(Outlook_s|No) * P(Temp_h|No) * P(Humidity_n|No) * P(Windy_f|No) * P(No)}{P(today)}
