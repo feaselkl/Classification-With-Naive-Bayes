@@ -270,7 +270,7 @@ So what are our features?  The answer is, **individual words**!
 
 ---
 
-### Calculating Values -- Words
+### Words
 
 Calculate `$P(threw|Baseball)$` => count how many times "threw" appears in Baseball texts, divided by the number of words in Baseball texts.
 
@@ -278,7 +278,7 @@ The answer here is `$\dfrac{1}{18}$`.
 
 ---
 
-### Calculating Values -- Missing Words
+### Missing Words
 
 What about the word "the"?  It doesn't appear in any of the baseball texts, so it would have a result of `$\dfrac{0}{18}$`.
 
@@ -287,7 +287,7 @@ But you're liable to see new words, so this isn't a good solution.
 
 ---
 
-### Calculating Values -- Laplace Smoothing
+### Laplace Smoothing
 
 To fix the zero probability problem, we can apply Laplace smoothing:  add 1 to each count so it is never zero.  Then, add N (the number of unique words) to the denominator.
 
@@ -296,7 +296,7 @@ a and bullish fell hitter investors no nobody of on opportunity out percent pitc
 
 ---
 
-### Calculating Values -- Table
+@title[Calculating Values -- Table]
 
 |Word|P(Baseball)|P(Business)|
 |----|----------------|----------------|
@@ -307,6 +307,15 @@ a and bullish fell hitter investors no nobody of on opportunity out percent pitc
 
 **NOTE:** "runner" is not the same as "runners" here!
 ---
+
+@title[Calculating Values -- Final Calculation]
+
+`$P(Baseball|phrase) = \dfrac{2}{47} \cdot \dfrac{3}{47} \cdot \dfrac{1}{47} \cdot \dfrac{1}{47} \cdot \dfrac{1}{47} \cdot \dfrac{3}{6} = 6.15e-7$`
+
+The probability of not playing golf:
+`$P(Business|phrase) = \dfrac{1}{43} \cdot \dfrac{1}{43} \cdot \dfrac{2}{43} \cdot \dfrac{1}{43} \cdot \dfrac{1}{47} \cdot \dfrac{3}{6} = 2.93e-7$`
+
+Baseball is therefore the best category for our phrase.
 
 ### Wrapping Up
 
