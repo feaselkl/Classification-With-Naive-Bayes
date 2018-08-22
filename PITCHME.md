@@ -500,7 +500,6 @@ conf.mat$overall["Accuracy"]
 @[34-35](Represent the words as a Document Term Matrix.)
 @[37-44](Split into training and test data sets.)
 @[46-52](Pick terms used in several reviews.)
-@[46-52](Pick terms used in several reviews.)
 @[54-57](Build up DTMs using the frequently-used products.)
 @[59-66](Because occurrence matters more than frequency, convert non-zero numbers to 1.)
 @[68-70](Train the model with Laplace smoothing and generate predictions.)
