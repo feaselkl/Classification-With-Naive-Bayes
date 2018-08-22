@@ -14,3 +14,4 @@ transition : none
 published : true
 footnote : "Classification with Naive Bayes | https://csmore.info/on/naivebayes"
 mathjax : TeX-MML-AM_HTMLorMML-full
+code-line-numbers : true

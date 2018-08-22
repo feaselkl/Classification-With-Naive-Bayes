@@ -40,7 +40,7 @@
 
 ### What Is Naive Bayes?
 
-Naive Bayes is not an algorithm; it is a **series** of algorithms.  Naive Bayes is very easy to understand and reasonably accurate, making it a great algorithm to use when starting a classification project.
+Naive Bayes is not an algorithm; it is a **class** of algorithms.  Naive Bayes is very easy to understand and reasonably accurate, making it a great class of algorithms to use when starting a classification project.
 
 ---
 
@@ -67,8 +67,8 @@ There are several forms of Naive Bayes algorithms that we will not discuss, but 
 1. **Solving Naive Bayes**
 2. Solving By Hand -- Features
 3. Solving By Hand -- Natural Language
-4. R - Features
-5. R - Natural Language
+4. R -- Features
+5. R -- Natural Language
 
 ---
 
@@ -103,8 +103,8 @@ Given `$B_1, B_2, ..., B_N$` as possible classes, we want to find the `$B_i$` wi
 1. Solving Naive Bayes
 2. **Solving By Hand -- Features**
 3. Solving By Hand -- Natural Language
-4. R - Features
-5. R - Natural Language
+4. R -- Features
+5. R -- Natural Language
 
 ---
 
@@ -231,8 +231,8 @@ Time to golf!
 1. Solving Naive Bayes
 2. Solving By Hand -- Features
 3. **Solving By Hand -- Natural Language**
-4. R - Features
-5. R - Natural Language
+4. R -- Features
+5. R -- Natural Language
 
 ---
 
@@ -326,6 +326,81 @@ Ways that we can improve prediction quality:
 2. Lemmatize words:  group together inflections of the same word (runner, runners)
 3. Use n-grams (sequences of multiple words; "threw out the" and "out the runner" are 3-grams)
 4. Use TF-IDF (term frequency - inverse document frequency):  penalize words which appear frequently in most of the texts. 
+
+---
+
+@title[R -- Features]
+
+## Agenda
+1. Solving Naive Bayes
+2. Solving By Hand -- Features
+3. Solving By Hand -- Natural Language
+4. **R -- Features**
+5. R -- Natural Language
+
+---
+
+### Using The `naivebayes` Package
+
+The `naivebayes` package is a fast Naive Bayes solver, with built-in versions of the `plot` and 
+`predict` functions.
+
+First, we will use the famous iris data set.
+
+---
+
+```r
+if(!require(naivebayes)) {
+  install.packages("naivebayes")
+  library(naivebayes)
+}
+if(!require(caret)) {
+  install.packages("caret")
+  library(caret)
+}
+
+data(iris)
+
+set.seed(1773)
+irisr <- iris[sample(nrow(iris)),]
+irisr <- irisr[sample(nrow(irisr)),]
+
+iris.train <- irisr[1:120,]
+iris.test <- irisr[121:150,]
+
+nb <- naivebayes::naive_bayes(Species ~ ., data = iris.train)
+#plot(nb, ask=TRUE)
+
+iris.output <- cbind(iris.test, prediction = predict(nb, iris.test))
+table(iris.output$Species, iris.output$prediction)
+caret::confusionMatrix(iris.output$prediction, iris.output$Species)
+```
+
+@[1-4](Install the naivebayes package to generate a Naive Bayes mmodel.)
+@[5-8](Install the caret package to generate a confusion matrix.)
+@[12-14](Pseudo-randomize the data set. This is small so we can do it by hand.)
+@[16-17](Generate training and test data sets.)
+@[19](Building a Naive Bayes model is as simple as a single function call.)
+@[22-24](Analyze the resulting predictions for accuracy.)
+
+---
+
+### Demo Time
+
+---
+
+@title[Solving By Hand -- Natural Language]
+
+## Agenda
+1. Solving Naive Bayes
+2. Solving By Hand -- Features
+3. Solving By Hand -- Natural Language
+4. R -- Features
+5. **R -- Natural Language**
+
+---
+
+### Demo Time
 
 ---
 
