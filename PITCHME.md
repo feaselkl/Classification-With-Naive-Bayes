@@ -382,7 +382,7 @@ confusionMatrix(iris.output$prediction, iris.output$Species)
 @[12-14](Pseudo-randomize the data set. This is small so we can do it by hand.)
 @[16-17](Generate training and test data sets.)
 @[19](Building a Naive Bayes model is as simple as a single function call.)
-@[22-24](Analyze the resulting predictions for accuracy.)
+@[22-25](Generate predictions and analyze the resulting predictions for accuracy.)
 
 ---
 
@@ -492,7 +492,7 @@ conf.mat$overall["Accuracy"]
 ```
 
 @[1-4](Install the naivebayes package to generate a Naive Bayes model.)
-@[5-8](Install the tidyverse package to do general tidyverse work.)
+@[5-8](Install the tidyverse package to do some data cleanup and use the %>% pipe.)
 @[9-12](Install the tm package to perform text mining.)
 @[13-16](Install the caret package to generate a confusion matrix.)
 @[21-24](Pseudo-randomize the data set and make `class` a factor.)
@@ -512,6 +512,15 @@ conf.mat$overall["Accuracy"]
 ---
 
 ### Wrapping Up
+
+The Naive Bayes class of algorithms are simple to understand and are reasonably accurate, making them
+a good starting point for data analysis.  There are a number of superior algorithms for specific problems,
+but starting with Naive Bayes will give you an idea of whether the problem is solvable and what your
+expected baseline of success should be.
+
+---
+
+### For More
 
 To learn more, go here:  <a href="http://csmore.info/on/naivebayes">http://CSmore.info/on/naivebayes</a>
 
