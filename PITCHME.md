@@ -371,12 +371,13 @@ iris.test <- irisr[121:150,]
 nb <- naivebayes::naive_bayes(Species ~ ., data = iris.train)
 #plot(nb, ask=TRUE)
 
-iris.output <- cbind(iris.test, prediction = predict(nb, iris.test))
+iris.output <- cbind(iris.test, 
+				prediction = predict(nb, iris.test))
 table(iris.output$Species, iris.output$prediction)
-caret::confusionMatrix(iris.output$prediction, iris.output$Species)
+confusionMatrix(iris.output$prediction, iris.output$Species)
 ```
 
-@[1-4](Install the naivebayes package to generate a Naive Bayes mmodel.)
+@[1-4](Install the naivebayes package to generate a Naive Bayes model.)
 @[5-8](Install the caret package to generate a confusion matrix.)
 @[12-14](Pseudo-randomize the data set. This is small so we can do it by hand.)
 @[16-17](Generate training and test data sets.)
@@ -397,6 +398,112 @@ caret::confusionMatrix(iris.output$prediction, iris.output$Species)
 3. Solving By Hand -- Natural Language
 4. R -- Features
 5. **R -- Natural Language**
+
+---
+
+### R -- Natural Language
+
+We can use the `naivebayes` package in R to solve Natural Language Processing problems as well.  Just like
+before, we need to featurize our language samples.  Also like before, we will use the bag of words technique
+to build our corpus.
+
+Unlike before, we will perform several data cleanup operations beforehand to normalize our input data set.
+
+---
+
+```r
+if(!require(naivebayes)) {
+  install.packages("naivebayes")
+  library(naivebayes)
+}
+if(!require(tidyverse)) {
+  install.packages("tidyverse")
+  library(tidyverse)
+}
+if(!require(tm)) {
+  install.packages("tm")
+  library(tm)
+}
+if(!require(caret)) {
+  install.packages("caret")
+  library(caret)
+}
+
+df <- readr::read_csv("data/movie-pang02.csv")
+#glimpse(df)
+
+set.seed(1773)
+df <- df[sample(nrow(df)),]
+df <- df[sample(nrow(df)),]
+df$class <- as.factor(df$class)
+
+corpus <- tm::Corpus(tm::VectorSource(df$text))
+corpus.clean <- corpus %>%
+  tm::tm_map(tm::content_transformer(tolower)) %>% 
+  tm::tm_map(tm::removePunctuation) %>%
+  tm::tm_map(tm::removeNumbers) %>%
+  tm::tm_map(tm::removeWords, tm::stopwords(kind="en")) %>%
+  tm::tm_map(tm::stripWhitespace)
+
+dtm <- tm::DocumentTermMatrix(corpus.clean)
+inspect(dtm[40:50,10:15])
+
+df.train <- df[1:1500,]
+df.test <- df[1501:2000,]
+
+dtm.train <- dtm[1:1500,]
+dtm.test <- dtm[1501:2000,]
+
+corpus.clean.train <- corpus.clean[1:1500]
+corpus.clean.test <- corpus.clean[1501:2000]
+
+# 1500 rows and 38957 columns (unique words)
+dim(dtm.train)
+#remove infrequently used terms--must have been used 
+# in at least 5 reviews
+fiveFreq <- tm::findFreqTerms(dtm.train, 5)
+#12144 terms remain
+length(fiveFreq)
+
+dtm.train.nb <- tm::DocumentTermMatrix(corpus.clean.train, 
+					control=list(dictionary = fiveFreq))
+dtm.test.nb <- tm::DocumentTermMatrix(corpus.clean.test, 
+					control=list(dictionary = fiveFreq))
+
+convert_count <- function(x) {
+  y <- ifelse(x > 0, 1, 0)
+  y <- factor(y, levels=c(0, 1), labels=c("No", "Yes"))
+  y
+}
+
+trainNB <- apply(dtm.train.nb, 2, convert_count)
+testNB <- apply(dtm.test.nb, 2, convert_count)
+
+classifier <- naivebayes::naive_bayes(trainNB, df.train$class, 
+				laplace = 1)
+pred <- predict(classifier, newdata=testNB)
+
+table("Predictions" = pred, "Actual" = df.test$class)
+conf.mat <- caret::confusionMatrix(pred, df.test$class)
+conf.mat
+conf.mat$byClass
+conf.mat$overall
+conf.mat$overall["Accuracy"]
+```
+
+@[1-4](Install the naivebayes package to generate a Naive Bayes model.)
+@[5-8](Install the tidyverse package to do general tidyverse work.)
+@[9-12](Install the tm package to perform text mining.)
+@[13-16](Install the caret package to generate a confusion matrix.)
+@[21-24](Pseudo-randomize the data set and make `class` a factor.)
+@[26-32](Create a corpus and clean up the dictionary.)
+@[34-35](Represent the words as a Document Term Matrix.)
+@[37-44](Split into training and test data sets.)
+@[46-52](Pick terms used in several reviews.)
+@[46-52](Pick terms used in several reviews.)
+@[54-57](Build up DTMs using the frequently-used products.)
+@[59-66](Because occurrence matters more than frequency, convert non-zero numbers to 1.)
+@[68-70](Train the model with Laplace smoothing and generate predictions.)
 
 ---
 
