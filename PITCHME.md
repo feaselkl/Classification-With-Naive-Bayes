@@ -320,8 +320,7 @@ Baseball is therefore the best category for our phrase.
 
 ### Making Results Better
 
-As noted before, "runner" had zero hits even though "runners" is in the Baseball set.  There are things we can
-do to improve the likelihood of hits even with slightly different forms of words:
+Ways that we can improve prediction quality:
 
 1. Remove stopwords (e.g., a, the, on, of, etc.)
 2. Lemmatize words:  group together inflections of the same word (runner, runners)
