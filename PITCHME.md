@@ -51,7 +51,7 @@ Naive Bayes algorithms follow the general form:
 * Probabilities derived from Bayes' Theorem
 * Features are independent (hence the "naive" approach)
 
----
+---?image=presentation/assets/background/Background_4.jpg&size=cover&opacity=15
 
 ### Motivation
 
@@ -106,7 +106,7 @@ Given `$B_1, B_2, ..., B_N$` as possible classes, we want to find the `$B_i$` wi
 4. R -- Features
 5. R -- Natural Language
 
----
+---?image=presentation/assets/background/Background_9.jpg&size=cover&opacity=15
 
 @title[Shall We Golf?]
 
@@ -121,7 +121,7 @@ Given `$B_1, B_2, ..., B_N$` as possible classes, we want to find the `$B_i$` wi
 |6|Overcast|Cool|Normal|True|Yes|
 |7|Rainy|Mild|High|False|No|
 
----
+---?image=presentation/assets/background/Background_9.jpg&size=cover&opacity=15
 
 @title[Shall We Golf? (cotd)]
 
@@ -134,7 +134,7 @@ Given `$B_1, B_2, ..., B_N$` as possible classes, we want to find the `$B_i$` wi
 |12|Overcast|Hot|Normal|False|Yes|
 |13|Sunny|Mild|High|True|No|
 
----
+---?image=presentation/assets/background/Background_11.jpg&size=cover&opacity=15
 
 ### Solving The Problem
 
@@ -145,7 +145,7 @@ Steps:
 2. Find the probability of golfing given each variable:  Outlook, Temp, Humidity, Wind.
 3. Plug values from new data into our formula.
 
----
+---?image=presentation/assets/background/Background_12.jpg&size=cover&opacity=15
 
 ### Prior Probability
 
@@ -155,7 +155,7 @@ Steps:
 |No|5|5/14|
 |Total|14|100%|
 
----
+---?image=presentation/assets/background/Background_13.jpg&size=cover&opacity=15
 
 ### Outlook
 
@@ -166,7 +166,7 @@ Steps:
 |Rainy|3|2|3/9|2/5|
 |Total|9|5|100%|100%|
 
----
+---?image=presentation/assets/background/Background_14.jpg&size=cover&opacity=15
 
 ### Temperature
 
@@ -177,7 +177,7 @@ Steps:
 |Cool|3|1|3/9|1/5|
 |Total|9|5|100%|100%|
 
----
+---?image=presentation/assets/background/Background_15.jpg&size=cover&opacity=15
 
 ### Humidity
 
@@ -187,7 +187,7 @@ Steps:
 |Normal|6|1|6/9|1/5|
 |Total|9|5|100%|100%|
 
----
+---?image=presentation/assets/background/Background_16.jpg&size=cover&opacity=15
 
 ### Windy
 
@@ -209,7 +209,7 @@ Suppose today = ( Sunny, Hot, Normal, False ).  Let's compare the P(golf) versus
 
 Note the common denominator:  because we're comparing P(Yes|today) versus P(No|today), the common denominator cancels out.
 
----
+---?image=presentation/assets/background/Background_18.jpg&size=cover&opacity=15
 
 ### Testing A Day
 
@@ -234,7 +234,7 @@ Time to golf!
 4. R -- Features
 5. R -- Natural Language
 
----
+---?image=presentation/assets/background/Background_20.jpg&size=cover&opacity=15
 
 ### Natural Language Sample
 
@@ -247,7 +247,7 @@ Time to golf!
 |Threw a no hitter|Baseball|
 |Runners on second and third with nobody out|Baseball|
 
----
+---?image=presentation/assets/background/Background_21.jpg&size=cover&opacity=15
 
 ### Test Text And Process
 
@@ -268,7 +268,7 @@ phrases is the prior probability of selecting the Baseball category:  `$\dfrac{3
 
 So what are our features?  The answer is, **individual words**!
 
----
+---?image=presentation/assets/background/Background_23.jpg&size=cover&opacity=15
 
 ### Words
 
@@ -285,7 +285,7 @@ What about the word "the"?  It doesn't appear in any of the baseball texts, so i
 Because we multiply all of the word probabilities together, a single 0 leads us to a total probability of 0%. 
 But you're liable to see new words, so this isn't a good solution.
 
----
+---?image=presentation/assets/background/Background_25.jpg&size=cover&opacity=15
 
 ### Laplace Smoothing
 
@@ -306,7 +306,7 @@ a and bullish fell hitter investors no nobody of on opportunity out percent pitc
 |runner|`$\dfrac{0+1}{18+29}$`|`$\dfrac{0+1}{14+29}$`|
 
 **NOTE:** "runner" is not the same as "runners" here!
----
+---?image=presentation/assets/background/Background_27.jpg&size=cover&opacity=15
 
 @title[Calculating Values -- Final Calculation]
 
@@ -316,7 +316,7 @@ a and bullish fell hitter investors no nobody of on opportunity out percent pitc
 
 Baseball is therefore the best category for our phrase.
 
----
+---?image=presentation/assets/background/Background_28.jpg&size=cover&opacity=15
 
 ### Making Results Better
 
@@ -338,7 +338,7 @@ Ways that we can improve prediction quality:
 4. **R -- Features**
 5. R -- Natural Language
 
----
+---?image=presentation/assets/background/Background_30.jpg&size=cover&opacity=15
 
 ### Using The `naivebayes` Package
 
@@ -384,7 +384,7 @@ confusionMatrix(iris.output$prediction, iris.output$Species)
 @[19](Building a Naive Bayes model is as simple as a single function call.)
 @[22-25](Generate predictions and analyze the resulting predictions for accuracy.)
 
----
+---?image=presentation/assets/background/Background_32.jpg&size=cover&opacity=15
 
 ### Demo Time
 
@@ -399,7 +399,7 @@ confusionMatrix(iris.output$prediction, iris.output$Species)
 4. R -- Features
 5. **R -- Natural Language**
 
----
+---?image=presentation/assets/background/Background_34.jpg&size=cover&opacity=15
 
 ### R -- Natural Language
 
@@ -504,11 +504,11 @@ conf.mat$overall["Accuracy"]
 @[59-66](Because occurrence matters more than frequency, convert non-zero numbers to 1.)
 @[68-70](Train the model with Laplace smoothing and generate predictions.)
 
----
+---?image=presentation/assets/background/Background_32.jpg&size=cover&opacity=15
 
 ### Demo Time
 
----
+---?image=presentation/assets/background/Background_37.jpg&size=cover&opacity=15
 
 ### Wrapping Up
 
