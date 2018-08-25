@@ -119,7 +119,6 @@ Given `$B_1, B_2, ..., B_N$` as possible classes, we want to find the `$B_i$` wi
 |4|Sunny|Cool|Normal|False|Yes|
 |5|Sunny|Cool|Normal|True|No|
 |6|Overcast|Cool|Normal|True|Yes|
-|7|Rainy|Mild|High|False|No|
 
 ---?image=presentation/assets/background/Background_9.jpg&size=cover&opacity=15
 
@@ -127,6 +126,7 @@ Given `$B_1, B_2, ..., B_N$` as possible classes, we want to find the `$B_i$` wi
 
 |Row|Outlook|Temp|Humidity|Windy|Golf?|
 |---|-------|----|--------|-----|-----|
+|7|Rainy|Mild|High|False|No|
 |8|Rainy|Cool|Normal|False|Yes|
 |9|Sunny|Mild|Normal|False|Yes|
 |10|Rainy|Mild|Normal|True|Yes|
