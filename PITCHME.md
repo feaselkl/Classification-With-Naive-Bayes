@@ -484,7 +484,7 @@ classifier <- naivebayes::naive_bayes(trainNB, df.train$class,
 pred <- predict(classifier, newdata=testNB)
 
 table("Predictions" = pred, "Actual" = df.test$class)
-conf.mat <- caret::confusionMatrix(pred, df.test$class)
+conf.mat <- caret::confusionMatrix(pred, df.test$class, positive="Pos")
 conf.mat
 conf.mat$byClass
 conf.mat$overall
