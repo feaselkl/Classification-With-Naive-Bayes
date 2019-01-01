@@ -89,7 +89,7 @@ The formulation of Bayes' Theorem we will use is:
 
 Supposing multiple inputs, we can combine them together like so:
 
-`$P(B|A) = \dfrac{P(x_1|B) * P(x_2|B) * ... * P(x_n|B)}{P(A)}$`
+`$P(B|A) = \dfrac{P(x_1|B) * P(x_2|B) * ... * P(x_n|B) * P(B)}{P(A)}$`
 
 This is because we assume that the inputs are **independent** from one another.
 
