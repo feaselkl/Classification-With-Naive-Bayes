@@ -510,6 +510,20 @@ conf.mat$overall["Accuracy"]
 
 ---?image=presentation/assets/background/Background_37.jpg&size=cover&opacity=20
 
+---
+
+### Where Next?
+
+After looking at Naive Bayes, you might be interested in a few other algorithms for classification:
+
+1. Logistic regression (for two-class problems).
+2. Decision trees, random forests, and gradient boosted trees.
+3. Online Passive-Aggressive Algorithms.
+4. Neural networks (multilayer perceptron, convolutional, or recurrent depending on the use case).
+5. Support Vector Machines.
+
+---
+
 ### Wrapping Up
 
 The Naive Bayes class of algorithms are simple to understand and are reasonably accurate, making them
