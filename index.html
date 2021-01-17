@@ -1,0 +1,628 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Catallaxy Services | Classification with Naive Bayes</title>
+
+		<link rel="stylesheet" href="../reveal.js/dist/reset.css">
+		<link rel="stylesheet" href="../reveal.js/dist/reveal.css">
+		<link rel="stylesheet" href="../reveal.js/dist/theme/black.css" id="theme">
+		<link rel="stylesheet" href="../WebsiteAssets/mods.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="../reveal.js/plugin/highlight/monokai.css" id="highlight-theme">
+		
+		<script>
+		  Reveal.initialize({
+			math: {
+			  mathjax: 'https://cdn.jsdelivr.net/gh/mathjax/mathjax@2.7.8/MathJax.js',
+			  config: 'TeX-AMS_HTML-full',
+			  // pass other options into `MathJax.Hub.Config()`
+			  TeX: { Macros: { RR: "{\\bf R}" } }
+			},
+			plugins: [ RevealMath ]
+		  });
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h2>Classification with Naive Bayes</h2>
+					
+					<a href="https://www.catallaxyservices.com">Kevin Feasel</a> (<a href="https://twitter.com/feaselkl">@feaselkl</a>)<br />
+					<a href="http://CSmore.info/on/naivebayes">http://CSmore.info/on/naivebayes</a>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Who Am I?  What Am I Doing Here?</h3>
+					<div class="container">
+						<div class="col">
+							<table class="whoami">
+								<tr>
+									<td><a href="https://csmore.info"><img src="../WebsiteAssets/Logo.png" height="100" /></a></td>
+									<td nowrap><a href="https://csmore.info">Catallaxy Services</a></td>
+								</tr>
+								<tr>
+									<td><a href="https://curatedsql.com"><img src="../WebsiteAssets/CuratedSQLLogo.png" height="100" /></a></td>
+									<td nowrap><a href="https://curatedsql.com">Curated SQL</a></td>
+								</tr>
+								<tr>
+									<td><a href="https://www.apress.com/us/book/9781484254608"><img src="../WebsiteAssets/PolyBaseRevealed.png" height="120" /></a></td>
+									<td nowrap><a href="https://www.apress.com/us/book/9781484254608">PolyBase Revealed</a></td>
+								</tr>
+							</table>
+						</div>
+						<div class="col">
+							<a href="http://www.twitter.com/feaselkl"><img src="../WebsiteAssets/HeadShot.jpg" height="358" width="315" /></a>
+							<br />
+							<a href="http://www.twitter.com/feaselkl">@feaselkl</a>
+						</div>					
+					</div>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>What is Naive Bayes?</h3>
+					
+					<p>Naive Bayes is not an algorithm; it is a <strong>class</strong> of algorithms.  Naive Bayes is very easy to understand and reasonably accurate, making it a great class of algorithms to use when starting a classification project.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Naive Bayes Characteristics</h3>
+					
+					<p>Naive Bayes algorithms follow the general form:</p>
+					
+					<ul>
+						<li>Probabilistic -- calculate probabilities of each output category and choose the best one</li>
+						<li>Probabilities derived from Bayes' Theorem</li>
+						<li>Features are independent (hence the "naive" approach)</li>
+					</ul>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/Background_4.jpg" data-background-opacity="0.2">
+					<h3>Motivation</h3>
+					
+					<p>Today's talk will show how the Naive Bayes class of algorithms works, solve for a simplied form, and then use R packages to solve larger-scale problems.</p>
+
+					<p>There are several forms of Naive Bayes algorithms that we will not discuss, but they can be quite useful under certain circumstances.</p>
+				</section>
+
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Agenda</h3>
+					
+					<ol>
+						<li class="active">Solving Naive Bayes</li>
+						<li>Solving by Hand -- Features</li>
+						<li>Solving by Hand -- Natural Language</li>
+						<li>R -- Features</li>
+						<li>R -- Natural Language</li>
+					</ol>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Bayes' Theorem</h3>
+					
+					$P(B|A) = \dfrac{P(A|B) * P(B)}{P(A)}$
+					
+					<ul>
+						<li>P(B|A) [aka, the posterior probability] is the probability of hypothesis B given data A.</li>
+						<li>P(A|B) is the probability of data A assuming that hypothesis B is true.</li>
+						<li>P(B) [aka, the prior probability] is the likelihood of hypothesis B being true regardless of data.</li>
+						<li>P(A) is the probability of seeing data A.</li>
+					</ul>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Applying Bayes' Theorem</h3>
+					
+					<p>Supposing multiple inputs, we can combine them together like so:</p>
+					
+					$P(B|A) = \dfrac{P(x_1|B) * P(x_2|B) * ... * P(x_n|B) * P(B)}{P(A)}$
+					
+					<p>This is because we assume that the inputs are <strong>independent</strong> from one another.</p>
+					
+					<p>Given $B_1, B_2, ..., B_N$ as possible classes, we want to find the $B_i$ with the highest probability.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Agenda</h3>
+					
+					<ol>
+						<li>Solving Naive Bayes</li>
+						<li class="active">Solving by Hand -- Features</li>
+						<li>Solving by Hand -- Natural Language</li>
+						<li>R -- Features</li>
+						<li>R -- Natural Language</li>
+					</ol>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/Background_9.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Shall We Golf?
+					
+					|Row|Outlook|Temp|Humidity|Windy|Golf?|
+					|---|-------|----|--------|-----|-----|
+					|0|Rainy|Hot|High|False|No|
+					|1|Rainy|Hot|High|True|No|
+					|2|Overcast|Hot|High|False|Yes|
+					|3|Sunny|Mild|High|False|Yes|
+					|4|Sunny|Cool|Normal|False|Yes|
+					|5|Sunny|Cool|Normal|True|No|
+					|6|Overcast|Cool|Normal|True|Yes|
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/Background_9.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Shall We Golf (cotd)?
+					
+					|Row|Outlook|Temp|Humidity|Windy|Golf?|
+					|---|-------|----|--------|-----|-----|
+					|7|Rainy|Mild|High|False|No|
+					|8|Rainy|Cool|Normal|False|Yes|
+					|9|Sunny|Mild|Normal|False|Yes|
+					|10|Rainy|Mild|Normal|True|Yes|
+					|11|Overcast|Mild|High|True|Yes|
+					|12|Overcast|Hot|Normal|False|Yes|
+					|13|Sunny|Mild|High|True|No|
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/Background_11.jpg" data-background-opacity="0.2">
+					<h3>Solving the Problem</h3>
+					
+					<p>Goal:  determine, based on input conditions, whether we should go play golf.</p>
+					
+					<p>Steps:</p>
+
+					<ol>
+						<li>Find the probability of playing golf (prior probability).</li>
+						<li>Find the probability of golfing given each variable:  Outlook, Temp, Humidity, Wind.</li>
+						<li>Plug values from new data into our formula.</li>
+					</ol>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/Background_12.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Prior Probability
+					
+					|Golf?|Count|P(Yes)/P(No)|
+					|-----|-----|------------|
+					|Yes|9|9/14|
+					|No|5|5/14|
+					|Total|14|100%|
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/Background_13.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Outlook
+					
+					|Golf?|Count|P(Yes)/P(No)|
+					|-----|-----|------------|
+					|Yes|9|9/14|
+					|No|5|5/14|
+					|Total|14|100%|
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/Background_14.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Temperature
+					
+					|Temp|Yes|No|P(Yes)|P(No)|
+					|----|---|--|------|-----|
+					|Hot|2|2|2/9|2/5|
+					|Mild|4|2|4/9|2/5|
+					|Cool|3|1|3/9|1/5|
+					|Total|9|5|100%|100%|
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/Background_15.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Humidity
+					
+					|Humidity|Yes|No|P(Yes)|P(No)|
+					|--------|---|--|------|-----|
+					|High|3|4|3/9|4/5|
+					|Normal|6|1|6/9|1/5|
+					|Total|9|5|100%|100%|
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/Background_16.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Windy
+					
+					|Windy|Yes|No|P(Yes)|P(No)|
+					|-----|---|--|------|-----|
+					|False|6|2|6/9|2/5|
+					|True|3|3|3/9|3/5|
+					|Total|9|5|100%|100%|
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Testing a Day</h3>
+					
+					<p>Suppose <code>today = {Sunny, Hot, Normal, False}</code>.  Let's compare the <code>P(golf)</code> versus <code>P(no golf)</code>:
+
+					$P(Y|t) = \dfrac{P(O_s|Y) \cdot P(T_h|Y) \cdot P(H_n|Y) \cdot P(W_f|Y) \cdot P(Y)}{P(t)}$
+
+					$P(N|t) = \dfrac{P(O_s|N) \cdot P(T_h|N) \cdot P(H_n|N) \cdot P(W_f|N) \cdot P(N)}{P(t)}$
+
+					<p>Note the common denominator:  because we're comparing <code>P(Yes|today)</code> versus <code>P(No|today)</code>, the common denominator cancels out.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/Background_18.jpg" data-background-opacity="0.2">
+					<h3>Testing a Day</h3>
+					
+					<p>Putting this in numbers:</p>
+					
+					<p>The probability of playing golf:</p>
+					
+					$P(Yes|today) = \dfrac{2}{9} \cdot \dfrac{2}{9} \cdot \dfrac{6}{9} \cdot \dfrac{6}{9} \cdot \dfrac{9}{14} = 0.0141$
+
+					<p>The probability of not playing golf:</p>
+					
+					$P(No|today) = \dfrac{3}{5} \cdot \dfrac{2}{5} \cdot \dfrac{1}{5} \cdot \dfrac{2}{5} \cdot \dfrac{5}{14} = 0.0068$
+					
+					<p>Time to golf!</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Agenda</h3>
+					
+					<ol>
+						<li>Solving Naive Bayes</li>
+						<li>Solving by Hand -- Features</li>
+						<li class="active">Solving by Hand -- Natural Language</li>
+						<li>R -- Features</li>
+						<li>R -- Natural Language</li>
+					</ol>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/Background_20.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Natural Language Sample
+					
+					|Text|Tag|
+					|----|---|
+					|Stock prices fell|Business|
+					|Shares were up thirty percent|Business|
+					|Pitched out of a tough situation|Baseball|
+					|Bullish investors seized on the opportunity|Business|
+					|Threw a no hitter|Baseball|
+					|Runners on second and third with nobody out|Baseball|
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/Background_21.jpg" data-background-opacity="0.2">
+					<h3>Test Text And Process</h3>
+					
+					<p>Our test text:  <strong>Threw out the runner</strong></p>
+
+					<p>Goal:  determine, based on input conditions, whether we should categorize this as a baseball phrase or a business phrase.</p>
+
+					<ol>
+						<li>Find the probability of a phrase being business or baseball (prior probability).</li>
+						<li>Find the probability of the words in the phrase being business or baseball.</li>
+						<li>Plug values from new data into our formula.</li>
+					</ol>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Calculating Values</h3>
+					
+					<p>Calculating the prior probability is easy:  the count of "Baseball" categories versus the total number of 
+phrases is the prior probability of selecting the Baseball category:  $\dfrac{3}{6}$, or 50%.  The same goes for Business.</p>
+
+					<p>So what are our features?  The answer is, <strong>individual words</strong>!</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/Background_23.jpg" data-background-opacity="0.2">
+					<h3>Words</h3>
+					
+					<p>Calculate $P(threw|Baseball)$ => count how many times "threw" appears in Baseball texts, divided by the number of words in Baseball texts.</p>
+
+					<p>The answer here is $\dfrac{1}{18}$.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Missing Words</h3>
+					
+					<p>What about the word "the"?  It doesn't appear in any of the baseball texts, so it would have a result of $\dfrac{0}{18}$.</p>
+
+					<p>Because we multiply all of the word probabilities together, a single 0 leads us to a total probability of 0%.</p>
+
+					<p>But you're liable to see new words, so this isn't a good solution.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/Background_25.jpg" data-background-opacity="0.2">
+					<h3>Laplace Smoothing</h3>
+					
+					<p>To fix the zero probability problem, we can apply Laplace smoothing:  add 1 to each count so it is never zero.  Then, add N (the number of unique words) to the denominator.</p>
+
+					<p>There are <strong>29</strong> unique words in the entire data set:</p>
+
+					<p><code>a and bullish fell hitter investors no nobody of on opportunity out percent pitched prices runners second seized shares situation stock the third thirty threw tough up were with</code></p>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4" data-markdown>
+					<textarea data-template>
+					### Calculating Values -- Table
+					
+					|Word|P(Baseball)|P(Business)|Note|
+					|----|----------------|----------------|----|
+					|threw|$\dfrac{1+1}{18+29}$|$\dfrac{0+1}{14+29}$||
+					|out|$\dfrac{2+1}{18+29}$|$\dfrac{0+1}{14+29}$||
+					|the|$\dfrac{0+1}{18+29}$|$\dfrac{1+1}{14+29}$||
+					|runner|$\dfrac{0+1}{18+29}$|$\dfrac{0+1}{14+29}$|Runner is NOT runners!|
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/Background_27.jpg" data-background-opacity="0.2">
+					<h3>Calculating Values -- Final Calculation</h3>
+					
+					$P(Baseball|totr) = \dfrac{2}{47} \cdot \dfrac{3}{47} \cdot \dfrac{1}{47} \cdot \dfrac{1}{47} \cdot \dfrac{3}{6} = 6.15 \times 10^-7$
+					
+					$P(Business|totr) = \dfrac{1}{43} \cdot \dfrac{1}{43} \cdot \dfrac{2}{43} \cdot \dfrac{1}{43} \cdot \dfrac{3}{6} = 2.93 \times 10^-7$
+
+					<p>Baseball is therefore the best category for our phrase.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/Background_28.jpg" data-background-opacity="0.2">
+					<h3>Making Results Better</h3>
+					
+					<p>Ways that we can improve prediction quality:</p>
+
+					<ol>
+						<li>Remove stopwords (e.g., a, the, on, of, etc.)</li>
+						<li>Lemmatize words:  group together inflections of the same word (runner, runners)</li>
+						<li>Use n-grams (sequences of multiple words; "threw out the" and "out the runner" are 3-grams)</li>
+						<li>Use TF-IDF (term frequency - inverse document frequency):  penalize words which appear frequently in most of the texts.</li>
+					</ol>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Agenda</h3>
+					
+					<ol>
+						<li>Solving Naive Bayes</li>
+						<li>Solving by Hand -- Features</li>
+						<li>Solving by Hand -- Natural Language</li>
+						<li class="active">R -- Features</li>
+						<li>R -- Natural Language</li>
+					</ol>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/Background_30.jpg" data-background-opacity="0.2">
+					<h3>Using the <code>naivebayes</code> Package</h3>
+					
+					<p>The <code>naivebayes</code> package is a fast Naive Bayes solver, with built-in versions of the <code>plot</code> and 
+<code>predict</code> functions.</p>
+
+					<p>First, we will use the famous iris data set.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<pre><code data-line-numbers="|1-4|5-8|12-14|16-17|19|22-25" data-trim><script type="text/template">
+					if(!require(naivebayes)) {
+					  install.packages("naivebayes")
+					  library(naivebayes)
+					}
+					if(!require(caret)) {
+					  install.packages("caret")
+					  library(caret)
+					}
+
+					data(iris)
+
+					set.seed(1773)
+					irisr <- iris[sample(nrow(iris)),]
+					irisr <- irisr[sample(nrow(irisr)),]
+
+					iris.train <- irisr[1:120,]
+					iris.test <- irisr[121:150,]
+
+					nb <- naivebayes::naive_bayes(Species ~ ., data = iris.train)
+					#plot(nb, ask=TRUE)
+
+					iris.output <- cbind(iris.test, 
+									prediction = predict(nb, iris.test))
+					table(iris.output$Species, iris.output$prediction)
+					confusionMatrix(iris.output$prediction, iris.output$Species)
+					</script></code></pre>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/Background_32.jpg" data-background-opacity="0.2">
+					<h3>Demo Time</h3>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Agenda</h3>
+					
+					<ol>
+						<li>Solving Naive Bayes</li>
+						<li>Solving by Hand -- Features</li>
+						<li>Solving by Hand -- Natural Language</li>
+						<li>R -- Features</li>
+						<li class="active">R -- Natural Language</li>
+					</ol>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/Background_34.jpg" data-background-opacity="0.2">
+					<h3>R -- Natural Language</h3>
+					
+					<p>We can use the <code>naivebayes</code> package in R to solve Natural Language Processing problems as well.  Just like
+before, we need to featurize our language samples.  Also like before, we will use the bag of words technique
+to build our corpus.</p>
+
+					<p>Unlike before, we will perform several data cleanup operations beforehand to normalize our input data set.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<pre><code data-line-numbers="|1-4|5-8|9-12|13-16|21-24|26-32|34-35|37-44|46-52|54-57|59-66|68-70" data-trim><script type="text/template">
+					if(!require(naivebayes)) {
+					  install.packages("naivebayes")
+					  library(naivebayes)
+					}
+					if(!require(tidyverse)) {
+					  install.packages("tidyverse")
+					  library(tidyverse)
+					}
+					if(!require(tm)) {
+					  install.packages("tm")
+					  library(tm)
+					}
+					if(!require(caret)) {
+					  install.packages("caret")
+					  library(caret)
+					}
+
+					df <- readr::read_csv("data/movie-pang02.csv")
+					#glimpse(df)
+
+					set.seed(1773)
+					df <- df[sample(nrow(df)),]
+					df <- df[sample(nrow(df)),]
+					df$class <- as.factor(df$class)
+
+					corpus <- tm::Corpus(tm::VectorSource(df$text))
+					corpus.clean <- corpus %>%
+					  tm::tm_map(tm::content_transformer(tolower)) %>% 
+					  tm::tm_map(tm::removePunctuation) %>%
+					  tm::tm_map(tm::removeNumbers) %>%
+					  tm::tm_map(tm::removeWords, tm::stopwords(kind="en")) %>%
+					  tm::tm_map(tm::stripWhitespace)
+
+					dtm <- tm::DocumentTermMatrix(corpus.clean)
+					inspect(dtm[40:50,10:15])
+
+					df.train <- df[1:1500,]
+					df.test <- df[1501:2000,]
+
+					dtm.train <- dtm[1:1500,]
+					dtm.test <- dtm[1501:2000,]
+
+					corpus.clean.train <- corpus.clean[1:1500]
+					corpus.clean.test <- corpus.clean[1501:2000]
+
+					# 1500 rows and 38957 columns (unique words)
+					dim(dtm.train)
+					#remove infrequently used terms--must have been used 
+					# in at least 5 reviews
+					fiveFreq <- tm::findFreqTerms(dtm.train, 5)
+					#12144 terms remain
+					length(fiveFreq)
+
+					dtm.train.nb <- tm::DocumentTermMatrix(corpus.clean.train, 
+										control=list(dictionary = fiveFreq))
+					dtm.test.nb <- tm::DocumentTermMatrix(corpus.clean.test, 
+										control=list(dictionary = fiveFreq))
+
+					convert_count <- function(x) {
+					  y <- ifelse(x > 0, 1, 0)
+					  y <- factor(y, levels=c(0, 1), labels=c("No", "Yes"))
+					  y
+					}
+
+					trainNB <- apply(dtm.train.nb, 2, convert_count)
+					testNB <- apply(dtm.test.nb, 2, convert_count)
+
+					classifier <- naivebayes::naive_bayes(trainNB, df.train$class, 
+									laplace = 1)
+					pred <- predict(classifier, newdata=testNB)
+
+					table("Predictions" = pred, "Actual" = df.test$class)
+					conf.mat <- caret::confusionMatrix(pred, df.test$class, positive="Pos")
+					conf.mat
+					conf.mat$byClass
+					conf.mat$overall
+					conf.mat$overall["Accuracy"]
+					</script></code></pre>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/Background_32.jpg" data-background-opacity="0.2">
+					<h3>Demo Time</h3>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Where Next?</h3>
+					
+					<p>After looking at Naive Bayes, you might be interested in a few other algorithms:</p>
+					
+					<ol>
+						<li>Logistic regression (for two-class problems).</li>
+						<li>Decision trees, random forests, and gradient boosted trees.</li>
+						<li>Online Passive-Aggressive Algorithms.</li>
+						<li>Neural networks (multilayer perceptron, convolutional, or recurrent depending on case).</li>
+						<li>Support Vector Machines.</li>
+					</ol>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/Background_37.jpg" data-background-opacity="0.2">
+					<h3>Wrapping Up</h3>
+					
+					<p>The Naive Bayes class of algorithms are simple to understand and are reasonably accurate, making them
+a good starting point for data analysis.  There are a number of superior algorithms for specific problems,
+but starting with Naive Bayes will give you an idea of whether the problem is solvable and what your
+expected baseline of success should be.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/Background_37.jpg" data-background-opacity="0.2">
+					<h3>Wrapping Up</h3>
+					
+					<p>
+						To learn more, go here:
+						<br />
+						<a href="https://csmore.info/on/naivebayes">https://CSmore.info/on/naivebayes</a>
+					</p>
+					<br />
+					<p>
+						And for help, contact me:
+						<br />
+						<a href="mailto:feasel@catallaxyservices.com">feasel@catallaxyservices.com</a> | <a href="https://www.twitter.com/feaselkl">@feaselkl</a>
+					</p>
+					<br />
+					<p>
+						Catallaxy Services consulting:
+						<br />
+						<a href="https://csmore.info/contact">https://CSmore.info/on/contact</a>
+					</p>
+				</section>
+			</div>
+		</div>
+
+		<script src="../reveal.js/dist/reveal.js"></script>
+		<script src="../reveal.js/plugin/zoom/zoom.js"></script>
+		<script src="../reveal.js/plugin/notes/notes.js"></script>
+		<script src="../reveal.js/plugin/search/search.js"></script>
+		<script src="../reveal.js/plugin/markdown/markdown.js"></script>
+		<script src="../reveal.js/plugin/math/math.js"></script>
+		<script src="../reveal.js/plugin/menu/menu.js"></script>
+		<script src="../reveal.js/plugin/highlight/highlight.js"></script>
+		<script src="../reveal.js/plugin/chart/Chart.min.js"></script>
+		<script src="../reveal.js/plugin/chart/plugin.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				width: '70%',
+				controls: true,
+				progress: true,
+				center: true,
+				hash: true,
+				transition: 'fade',
+				
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight, RevealMath, RevealMenu, RevealChart ]
+			});
+		</script>
+	</body>
+</html>
