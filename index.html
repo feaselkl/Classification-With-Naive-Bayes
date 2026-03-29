@@ -50,8 +50,8 @@
 									<td nowrap><a href="https://curatedsql.com">Curated SQL</a></td>
 								</tr>
 								<tr>
-									<td><a href="https://www.apress.com/us/book/9781484254608"><img src="../WebsiteAssets/PolyBaseRevealed.png" height="120" /></a></td>
-									<td nowrap><a href="https://www.apress.com/us/book/9781484254608">PolyBase Revealed</a></td>
+									<td><a href="https://www.amazon.com/Finding-Ghosts-Your-Data-Techniques/dp/1484288696"><img src="../WebsiteAssets/Finding-Ghosts.jpg" height="120" /></a></td>
+									<td nowrap><a href="https://www.amazon.com/Finding-Ghosts-Your-Data-Techniques/dp/1484288696">Finding Ghosts in Your Data</a></td>
 								</tr>
 							</table>
 						</div>
@@ -66,13 +66,13 @@
 				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
 					<h3>What is Naive Bayes?</h3>
 					
-					<p>Naive Bayes is not an algorithm; it is a <strong>class</strong> of algorithms.  Naive Bayes is very easy to understand and reasonably accurate, making it a great class of algorithms to use when starting a classification project.</p>
+					<p>Naive Bayes is not an algorithm; it is a <strong>class</strong> of algorithms.  Naive Bayes is straightforward to understand and reasonably accurate, making it a great starting point for classification projects.</p>
 				</section>
 				
 				<section data-background-image="presentation/assets/background/Variety.jpg" data-background-opacity="0.2">
 					<h3>What is Classification?</h3>
 					
-					<p>Classification is a machine learning technique in which we wish to predict what class (or category) an item belongs to.  Examples of classification include:</p>
+					<p>Classification is a machine learning technique that predicts what class (or category) an item belongs to.  Examples include:</p>
 					
 					<ul>
 						<li>Will it blend?</li>
@@ -109,7 +109,7 @@
 				<section data-background-image="presentation/assets/background/Background_4.jpg" data-background-opacity="0.2">
 					<h3>Motivation</h3>
 					
-					<p>Today's talk will show how the Naive Bayes class of algorithms works, solve for a simplied form, and then use R packages to solve larger-scale problems.</p>
+					<p>Today's talk covers how Naive Bayes works, solves a simplified form by hand, and then uses Python and scikit-learn to tackle larger-scale problems.</p>
 
 					<p>There are several forms of Naive Bayes algorithms that we will not discuss, but they can be quite useful under certain circumstances.</p>
 				</section>
@@ -121,8 +121,8 @@
 						<li class="active">Solving Naive Bayes</li>
 						<li>Solving by Hand -- Features</li>
 						<li>Solving by Hand -- Natural Language</li>
-						<li>R -- Features</li>
-						<li>R -- Natural Language</li>
+						<li>Python -- Features</li>
+						<li>Python -- Natural Language</li>
 					</ol>
 				</section>
 				
@@ -158,8 +158,8 @@
 						<li>Solving Naive Bayes</li>
 						<li class="active">Solving by Hand -- Features</li>
 						<li>Solving by Hand -- Natural Language</li>
-						<li>R -- Features</li>
-						<li>R -- Natural Language</li>
+						<li>Python -- Features</li>
+						<li>Python -- Natural Language</li>
 					</ol>
 				</section>
 				
@@ -306,8 +306,8 @@
 						<li>Solving Naive Bayes</li>
 						<li>Solving by Hand -- Features</li>
 						<li class="active">Solving by Hand -- Natural Language</li>
-						<li>R -- Features</li>
-						<li>R -- Natural Language</li>
+						<li>Python -- Features</li>
+						<li>Python -- Natural Language</li>
 					</ol>
 				</section>
 				
@@ -420,50 +420,25 @@ phrases is the prior probability of selecting the Baseball category:  $\dfrac{3}
 						<li>Solving Naive Bayes</li>
 						<li>Solving by Hand -- Features</li>
 						<li>Solving by Hand -- Natural Language</li>
-						<li class="active">R -- Features</li>
-						<li>R -- Natural Language</li>
+						<li class="active">Python -- Features</li>
+						<li>Python -- Natural Language</li>
 					</ol>
 				</section>
 				
 				<section data-background-image="presentation/assets/background/Background_30.jpg" data-background-opacity="0.2">
-					<h3>Using the <code>naivebayes</code> Package</h3>
-					
-					<p>The <code>naivebayes</code> package is a fast Naive Bayes solver, with built-in versions of the <code>plot</code> and 
-<code>predict</code> functions.</p>
+					<h3>Naive Bayes with Features</h3>
 
-					<p>First, we will use the famous iris data set.</p>
+					<p>scikit-learn offers three Naive Bayes classifiers:</p>
+
+					<ul>
+						<li><strong>GaussianNB</strong> &mdash; continuous features (e.g., measurements)</li>
+						<li><strong>MultinomialNB</strong> &mdash; discrete counts (e.g., word frequencies)</li>
+						<li><strong>BernoulliNB</strong> &mdash; binary features (e.g., word presence/absence)</li>
+					</ul>
+
+					<p>We'll start with <code>GaussianNB</code> on the classic iris data set.</p>
 				</section>
-				
-				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
-					<pre><code data-line-numbers="|1-4|5-8|12-14|16-17|19|22-25" data-trim><script type="text/template">
-					if(!require(naivebayes)) {
-					  install.packages("naivebayes")
-					  library(naivebayes)
-					}
-					if(!require(caret)) {
-					  install.packages("caret")
-					  library(caret)
-					}
 
-					data(iris)
-
-					set.seed(1773)
-					irisr <- iris[sample(nrow(iris)),]
-					irisr <- irisr[sample(nrow(irisr)),]
-
-					iris.train <- irisr[1:120,]
-					iris.test <- irisr[121:150,]
-
-					nb <- naivebayes::naive_bayes(Species ~ ., data = iris.train)
-					#plot(nb, ask=TRUE)
-
-					iris.output <- cbind(iris.test, 
-									prediction = predict(nb, iris.test))
-					table(iris.output$Species, iris.output$prediction)
-					confusionMatrix(iris.output$prediction, iris.output$Species)
-					</script></code></pre>
-				</section>
-				
 				<section data-background-image="presentation/assets/background/Background_32.jpg" data-background-opacity="0.2">
 					<h3>Demo Time</h3>
 				</section>
@@ -475,103 +450,28 @@ phrases is the prior probability of selecting the Baseball category:  $\dfrac{3}
 						<li>Solving Naive Bayes</li>
 						<li>Solving by Hand -- Features</li>
 						<li>Solving by Hand -- Natural Language</li>
-						<li>R -- Features</li>
-						<li class="active">R -- Natural Language</li>
+						<li>Python -- Features</li>
+						<li class="active">Python -- Natural Language</li>
 					</ol>
 				</section>
 				
 				<section data-background-image="presentation/assets/background/Background_34.jpg" data-background-opacity="0.2">
-					<h3>R -- Natural Language</h3>
-					
-					<p>We can use the <code>naivebayes</code> package in R to solve Natural Language Processing problems as well.  Just like
-before, we need to featurize our language samples.  Also like before, we will use the bag of words technique
-to build our corpus.</p>
+					<h3>Naive Bayes with NLP</h3>
 
-					<p>Unlike before, we will perform several data cleanup operations beforehand to normalize our input data set.</p>
+					<p>To classify text, we need to convert words into features. scikit-learn gives us two approaches:</p>
+
+					<ul>
+						<li><strong>CountVectorizer</strong> &mdash; bag of words (word presence/absence)</li>
+						<li><strong>TfidfVectorizer</strong> &mdash; TF-IDF (penalizes common words, rewards distinctive ones)</li>
+					</ul>
 				</section>
-				
-				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
-					<pre><code data-line-numbers="|1-4|5-8|9-12|13-16|21-24|26-32|34-35|37-44|46-52|54-57|59-66|68-70" data-trim><script type="text/template">
-					if(!require(naivebayes)) {
-					  install.packages("naivebayes")
-					  library(naivebayes)
-					}
-					if(!require(tidyverse)) {
-					  install.packages("tidyverse")
-					  library(tidyverse)
-					}
-					if(!require(tm)) {
-					  install.packages("tm")
-					  library(tm)
-					}
-					if(!require(caret)) {
-					  install.packages("caret")
-					  library(caret)
-					}
 
-					df <- readr::read_csv("data/movie-pang02.csv")
-					#glimpse(df)
+				<section data-background-image="presentation/assets/background/Background_34.jpg" data-background-opacity="0.2">
+					<h3>Naive Bayes with NLP</h3>
 
-					set.seed(1773)
-					df <- df[sample(nrow(df)),]
-					df <- df[sample(nrow(df)),]
-					df$class <- as.factor(df$class)
-
-					corpus <- tm::Corpus(tm::VectorSource(df$text))
-					corpus.clean <- corpus %>%
-					  tm::tm_map(tm::content_transformer(tolower)) %>% 
-					  tm::tm_map(tm::removePunctuation) %>%
-					  tm::tm_map(tm::removeNumbers) %>%
-					  tm::tm_map(tm::removeWords, tm::stopwords(kind="en")) %>%
-					  tm::tm_map(tm::stripWhitespace)
-
-					dtm <- tm::DocumentTermMatrix(corpus.clean)
-					inspect(dtm[40:50,10:15])
-
-					df.train <- df[1:1500,]
-					df.test <- df[1501:2000,]
-
-					dtm.train <- dtm[1:1500,]
-					dtm.test <- dtm[1501:2000,]
-
-					corpus.clean.train <- corpus.clean[1:1500]
-					corpus.clean.test <- corpus.clean[1501:2000]
-
-					# 1500 rows and 38957 columns (unique words)
-					dim(dtm.train)
-					#remove infrequently used terms--must have been used 
-					# in at least 5 reviews
-					fiveFreq <- tm::findFreqTerms(dtm.train, 5)
-					#12144 terms remain
-					length(fiveFreq)
-
-					dtm.train.nb <- tm::DocumentTermMatrix(corpus.clean.train, 
-										control=list(dictionary = fiveFreq))
-					dtm.test.nb <- tm::DocumentTermMatrix(corpus.clean.test, 
-										control=list(dictionary = fiveFreq))
-
-					convert_count <- function(x) {
-					  y <- ifelse(x > 0, 1, 0)
-					  y <- factor(y, levels=c(0, 1), labels=c("No", "Yes"))
-					  y
-					}
-
-					trainNB <- apply(dtm.train.nb, 2, convert_count)
-					testNB <- apply(dtm.test.nb, 2, convert_count)
-
-					classifier <- naivebayes::naive_bayes(trainNB, df.train$class, 
-									laplace = 1)
-					pred <- predict(classifier, newdata=testNB)
-
-					table("Predictions" = pred, "Actual" = df.test$class)
-					conf.mat <- caret::confusionMatrix(pred, df.test$class, positive="Pos")
-					conf.mat
-					conf.mat$byClass
-					conf.mat$overall
-					conf.mat$overall["Accuracy"]
-					</script></code></pre>
+					<p>scikit-learn's <code>Pipeline</code> chains the vectorizer and classifier together, reducing the entire workflow to a few lines of code.</p>
 				</section>
-				
+
 				<section data-background-image="presentation/assets/background/Background_32.jpg" data-background-opacity="0.2">
 					<h3>Demo Time</h3>
 				</section>
@@ -593,10 +493,9 @@ to build our corpus.</p>
 				<section data-background-image="presentation/assets/background/Background_37.jpg" data-background-opacity="0.2">
 					<h3>Wrapping Up</h3>
 					
-					<p>The Naive Bayes class of algorithms are simple to understand and are reasonably accurate, making them
-a good starting point for data analysis.  There are a number of superior algorithms for specific problems,
-but starting with Naive Bayes will give you an idea of whether the problem is solvable and what your
-expected baseline of success should be.</p>
+					<p>The Naive Bayes class of algorithms are straightforward to understand and reasonably accurate, making them a good starting point for data analysis.</p>
+
+					<p>More specialized algorithms may outperform Naive Bayes for specific problems.  But starting with Naive Bayes tells you whether the problem is solvable and establishes your expected baseline of success.</p>
 				</section>
 				
 				<section data-background-image="presentation/assets/background/Background_37.jpg" data-background-opacity="0.2">
